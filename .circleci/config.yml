@@ -435,7 +435,7 @@ workflows:
           requires: [test-backend,scan-backend]
           filters:
             branches:
-              only: [main]
+              only: [master]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
       - run-migrations:
