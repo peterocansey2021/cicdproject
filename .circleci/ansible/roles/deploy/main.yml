@@ -1,0 +1,45 @@
+---
+- name: "upgrade packages."
+  become: true
+  apt:
+    upgrade: "yes"
+
+- name: "Remove dependencies that are no longer required."
+  become: true
+  apt:
+    autoremove: yes
+
+- name: "install dependencies."
+  become: true
+  apt:
+    name: ["nodejs", "npm", "curl"]
+    state: latest
+    update_cache: yes
+
+- name: "install pm2"
+  become: true
+  npm:
+    name: pm2
+    global: yes
+    production: yes
+    state: present
+
+- name: "Copy Backend Files"
+  become: true
+  synchronize:
+    src: ../../backend/dist
+    dest: /home/ubuntu/backend
+    recursive: true
+
+- name: "copy node_modules"
+  become: yes
+  synchronize:
+    src: ../../backend/node_modules
+    dest: /home/ubuntu/backend
+    recursive: true
+    
+- name: "start server"
+  become: true
+  command: pm2 start -f main.js
+  args:
+    chdir: /home/ubuntu/backend/dist
