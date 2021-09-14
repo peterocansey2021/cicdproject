@@ -1,7 +1,7 @@
 ---
 - name: "configuration play." 
   hosts: web
-  user: root
+  user: ec2-user
   gather_facts: false
   
   vars:
