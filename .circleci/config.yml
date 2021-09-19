@@ -315,6 +315,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            yum -y install nodejs
             cd backend
             npm i
             pip install awscli
